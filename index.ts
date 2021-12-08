@@ -1,10 +1,15 @@
 import Server from './classes/server';
 import userRoutes from './routes/usuario';
 import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 
 const server = new Server();
 const uri = 'mongodb://localhost:27017/fotosgram';
 
+//Cuando se ejecute este archivo pasará por el "middleware" de usuario
+//Body parser
+server.app.use( bodyParser.urlencoded({ extended: true}));
+server.app.use( bodyParser.json());
 
 //La petición a server hará referencia a /user
 server.app.use('/user', userRoutes);
