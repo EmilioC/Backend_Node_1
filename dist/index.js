@@ -1,10 +1,11 @@
 "use strict";
-console.log("Hello universe");
-// let numero = 15;
-// function repetir() {
-//     for (let index = 0; index < numero; index++) {
-//         const element = index;
-//         console.log(index);
-//     }
-// }
-// repetir();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const server_1 = __importDefault(require("./classes/server"));
+const server = new server_1.default();
+//Levantar express
+server.start(() => {
+    console.log(`Servidor corriendo en ${server.port}`);
+});

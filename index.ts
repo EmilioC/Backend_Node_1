@@ -1,10 +1,8 @@
-console.log("Hello universe");
-let numero = 6;
+import Server from './classes/server';
 
-function repetir (){
-for (let index = 0; index < numero; index++) {
-    const element = index;
-    console.log (index)
-;}
-}
-repetir();
+const server = new Server();
+
+//Levantar express
+server.start(() => {
+    console.log(`Servidor corriendo en ${ server.port }`);
+});
