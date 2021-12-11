@@ -1,4 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const usuarioSchema = new Schema({
     nombre: {
@@ -20,13 +21,26 @@ const usuarioSchema = new Schema({
     }
 });
 
+//Verificar usuario. Utilizamos una función normal (function()) porque 
+//utilizaremos el this. No sería posible al usar una funcion tipo flecha
+usuarioSchema.method('compararPassword', function( password: string = ''): boolean {
+
+    if (  bcrypt.compareSync( password, this.password ) ) {
+        return true;
+    } else {
+        return false;
+    }
+
+});
+
 //Inteface es opcional pero ayuda al tipado
 interface IUsuario extends Document{
     nombre: string;
     email: string;
     password: string;
     avatar: string;
-
+    
+    compararPassword(password: string): boolean;
 }
 
-export const Usuario = model('Usuario', usuarioSchema);
+export const Usuario = model<IUsuario>('Usuario', usuarioSchema);
