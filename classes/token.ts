@@ -26,12 +26,10 @@ export default class Token {
                 } else {
                     resolve( decoded );
                 }
-    
-    
+
             })
 
         });
-
 
     }
 
