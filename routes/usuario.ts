@@ -43,14 +43,8 @@ userRoutes.post('/login', (req: Request, res: Response ) => {
                 mensaje: 'Usuario/contraseña no son correctos ***'
             });
         }
-
-
     })
-
-
 });
-
-
 
 // Crear un usuario
 userRoutes.post('/create', ( req: Request, res: Response ) => {
@@ -76,19 +70,14 @@ userRoutes.post('/create', ( req: Request, res: Response ) => {
             token: tokenUser
         });
 
-
     }).catch( err => {
         res.json({
             ok: false,
             err
         });
     });
-
-
-
-
+ 
 });
-
 
 // Actualizar usuario
 userRoutes.post('/update', verificaToken, (req: any, res: Response ) => {
@@ -111,7 +100,7 @@ userRoutes.post('/update', verificaToken, (req: any, res: Response ) => {
         }
 
         const tokenUser = Token.getJwtToken({
-            usuario_id: userDB._id,
+            _id: userDB._id,
             nombre: userDB.nombre,
             email: userDB.email,
             avatar: userDB.avatar
@@ -121,8 +110,6 @@ userRoutes.post('/update', verificaToken, (req: any, res: Response ) => {
             ok: true,
             token: tokenUser
         });
-
-
     });
 
 });
