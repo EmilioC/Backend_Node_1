@@ -1,40 +1,39 @@
 import Server from './classes/server';
-import userRoutes from './routes/usuario';
-import mongoose from 'mongoose';
+import mongoose, { ConnectOptions } from 'mongoose';
+
 import bodyParser from 'body-parser';
+import fileUpload from 'express-fileupload';
+
+import userRoutes from './routes/usuario';
+import postRoutes from './routes/post';
 
 const server = new Server();
-const uri = 'mongodb://localhost:27017/fotosgram';
 
-//Cuando se ejecute este archivo pasará por el "middleware" de usuario
-//Body parser
-server.app.use( bodyParser.urlencoded({ extended: true}));
-server.app.use( bodyParser.json());
 
-//La petición a server hará referencia a /user
-server.app.use('/user', userRoutes);
+// Body parser
+server.app.use( bodyParser.urlencoded({ extended: true }));
+server.app.use( bodyParser.json() );
 
-const options =
-{
-    useNewUrlParser: true,
-    useCreateIndex:true
-};
+
+// FileUpload
+server.app.use( fileUpload({ useTempFiles: true }) );
+
+
+// Rutas de mi app
+server.app.use('/user', userRoutes );
+server.app.use('/posts', postRoutes );
+
 
 // Conectar DB
-mongoose.connect(uri)
-.then((res) => {
-    console.log(
-        'Connected to Distribution API Database - Initial Connection'
-    );
-})
-.catch((err) => {
-    console.log(
-        `Initial Distribution API Database connection error occured -`,
-        err
-    );
-});
+mongoose.connect('mongodb://localhost:27017/fotosgram', 
+                { useNewUrlParser: true, useUnifiedTopology: true } as ConnectOptions, ( err ) => {
 
-//Levantar express
-server.start(() => {
-    console.log(`Servidor corriendo en ${ server.port }`);
+   if ( err ) throw err;
+
+   console.log('Base de datos ONLINE');
+})
+
+// Levantar express
+server.start( () => {
+    console.log(`Servidor corriendo en puerto ${ server.port }`);
 });

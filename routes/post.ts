@@ -47,7 +47,7 @@ postRoutes.post('/', [ verificaToken ], (req: any, res: Response) => {
 
     Post.create( body ).then( async postDB => {
 
-        await postDB.populate('usuario', '-password').execPopulate();
+        await postDB.populate({path: 'usuario', select: '-password'});
 
         res.json({
             ok: true,
